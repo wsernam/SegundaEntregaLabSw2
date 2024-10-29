@@ -4,17 +4,28 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ch.qos.logback.classic.Logger;
 import co.edu.unicauca.edu.info.gestionalizar_Articulos.capaAccesoDatos.models.ArticulosEntity;
 import co.edu.unicauca.edu.info.gestionalizar_Articulos.capaAccesoDatos.repositories.ArticuloRepository;
 import co.edu.unicauca.edu.info.gestionalizar_Articulos.fachadaServices.DTO.ArticuloDTO;
-
+import co.edu.unicauca.edu.info.gestionalizar_Articulos.fachadaServices.events.ArticuloCreadoEvent;
+import co.edu.unicauca.edu.info.gestionalizar_Articulos.fachadaServices.rabbit.ConfigRabbitMQ;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
+@AllArgsConstructor
 @Service
 public class ArticuloServicempl implements IArticuloService {
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(ArticuloServicempl.class);
     @Autowired
 	private ArticuloRepository servicioAccesoBaseDatos;
-
+    private final RabbitTemplate rabbitTemplate;
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -32,12 +43,23 @@ public class ArticuloServicempl implements IArticuloService {
         return servicioAccesoBaseDatos.EliminarArticulo(codigo);
     }
 
+    public void enviarEventoArticuloCreado(ArticuloCreadoEvent evento) {
+        try {
+            rabbitTemplate.convertAndSend(ConfigRabbitMQ.ARTICULO_EXCHANGE, ConfigRabbitMQ.ARTICULO_ROUTING_KEY, evento);
+            logger.info("Evento ArticuloCreadoEvent enviado exitosamente: {}", evento);
+        } catch (Exception e) {
+            logger.error("Error al enviar el evento ArticuloCreadoEvent: {}", evento, e);
+        }
+    }
+
     @Override
     public ArticuloDTO AdicionarArticulo(ArticuloDTO Libro) {
         // Implementación para agregar un nuevo libro
         ArticulosEntity libroEntity = modelMapper.map(Libro, ArticulosEntity.class);
-        ArticulosEntity nuevoLibro = servicioAccesoBaseDatos.AdicionarArticulo(libroEntity);
-        return modelMapper.map(nuevoLibro, ArticuloDTO.class);
+        ArticulosEntity nuevoArticulo = servicioAccesoBaseDatos.AdicionarArticulo(libroEntity);
+        ArticuloCreadoEvent evento = new ArticuloCreadoEvent(nuevoArticulo.getIdArticulo(), nuevoArticulo.getNombre(), nuevoArticulo.getResumen(), nuevoArticulo.getConferencias());
+        enviarEventoArticuloCreado(evento);
+        return modelMapper.map(nuevoArticulo, ArticuloDTO.class);
     }
 
     @Override
