@@ -4,16 +4,21 @@ package co.edu.unicauca.distribuidos.core.fachadaServices.services;
 import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.edu.unicauca.distribuidos.core.capaAccesoADatos.models.ConferenciaEntity;
 import co.edu.unicauca.distribuidos.core.capaAccesoADatos.repositories.ConfereciaRepository;
 import co.edu.unicauca.distribuidos.core.fachadaServices.DTO.ArticulosConConferenciasDTO.*;
 import co.edu.unicauca.distribuidos.core.fachadaServices.DTO.ArticulosConConferenciasDTO.ArticuloDTO;
 import co.edu.unicauca.distribuidos.core.fachadaServices.DTO.CRUDClientesDTO.*;
+import co.edu.unicauca.distribuidos.core.fachadaServices.events.ConferenciaCreadaEvent;
 
 @Service
 public class ConferenciaServiceImpl implements IConferenceService {
 
+	@Autowired
+    private RabbitTemplate rabbitTemplate;
 	private ConfereciaRepository servicioAccesoBaseDatos;
 	private ArticulosService servicioConsumirObtencionArticulos;
 	private ModelMapper modelMapper;
@@ -36,16 +41,18 @@ public class ConferenciaServiceImpl implements IConferenceService {
 	@Override
 	public ConferenciaDTO findById(Integer id) {
 		ConferenciaEntity objCLienteEntity = this.servicioAccesoBaseDatos.findById(id);
-		ConferenciaDTO clienteDTO = this.modelMapper.map(objCLienteEntity, ConferenciaDTO.class);
-		return clienteDTO;
+		ConferenciaDTO conferenciaDTO = this.modelMapper.map(objCLienteEntity, ConferenciaDTO.class);
+		return conferenciaDTO;
 	}
 
 	@Override
 	public ConferenciaDTO save(ConferenciaDTO cliente) {
 		ConferenciaEntity clienteEntity = this.modelMapper.map(cliente, ConferenciaEntity.class);
 		ConferenciaEntity objCLienteEntity = this.servicioAccesoBaseDatos.save(clienteEntity);
-		ConferenciaDTO clienteDTO = this.modelMapper.map(objCLienteEntity, ConferenciaDTO.class);
-		return clienteDTO;
+		ConferenciaDTO ConferenciaDTO = this.modelMapper.map(objCLienteEntity, ConferenciaDTO.class);
+		ConferenciaCreadaEvent evento = new ConferenciaCreadaEvent(objCLienteEntity.getId(), objCLienteEntity.getNombre(), objCLienteEntity.getFechaInicio(), objCLienteEntity.getFechaFin());
+		rabbitTemplate.convertAndSend("conferencia-exchange", "conferencia.creada", evento);
+		return ConferenciaDTO;
 	}
 
 	@Override
