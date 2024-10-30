@@ -23,7 +23,7 @@ public class Articulo {
     public Articulo(String titulo, String autores, String resumen) {
         this.idArticulo = idCounter++;
         this.titulo = titulo;
-        this.autores = autores;
+        //this.autores = autores;
         this.resumen = resumen;
     }
 

@@ -185,7 +185,7 @@ public class VtnRegistrarArticulo1 extends javax.swing.JInternalFrame {
         resumen = this.jTextAreaResumen.getText();
 
         // Crea un nuevo objeto Articulo
-        Articulo objArticulo = new Articulo(titulo, autores, resumen);
+        Articulo objArticulo = new Articulo(titulo,autores, resumen);
 
         // Llama al método registrarArticulo y verifica el resultado
         Articulo articuloRegistrado = this.objServicio1.registrarArticulo(objArticulo);

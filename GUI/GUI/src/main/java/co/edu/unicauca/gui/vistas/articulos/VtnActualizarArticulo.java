@@ -43,7 +43,7 @@ public class VtnActualizarArticulo extends javax.swing.JInternalFrame {
         Articulo objArticulo = this.objServicio1.consultarArticulo(idArticulo);
         this.jTextFieldId.setText(objArticulo.getIdArticulo() + "");
         this.jTextFieldTitulo.setText(objArticulo.getTitulo());
-        this.jTextAreaAutores.setText(objArticulo.getAutores());
+        //this.jTextAreaAutores.setText(objArticulo.getAutores());
         this.jComboBoxConferencia.setSelectedItem(objArticulo.getObjConferencia());
     }
 
@@ -243,7 +243,7 @@ public class VtnActualizarArticulo extends javax.swing.JInternalFrame {
             if (objArticulo != null) {
                 // Actualizar los datos del artículo
                 objArticulo.setTitulo(titulo);
-                objArticulo.setAutores(autores);
+                //objArticulo.setAutores(autores);
                 objArticulo.setObjConferencia(objConferencia);
 
                 // Llamar al método actualizarArticulo y pasar el id
