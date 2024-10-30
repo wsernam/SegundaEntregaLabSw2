@@ -13,7 +13,7 @@ public class ArticulosService {
     @Autowired
     private WebClient.Builder webClientBuilder;
 
-    public List<ArticuloDTO> obtenerLibrosDeCliente(Integer idCliente) {
+    public List<ArticuloDTO> obtenerArticulosDeConferencia(Integer idCliente) {
         String url = "http://localhost:1000/api/Articulos/ArticuloDeUnaConferencia/" + idCliente;
 
         Mono<ArticuloDTO[]> response = webClientBuilder.build()

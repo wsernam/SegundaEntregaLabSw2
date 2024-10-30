@@ -31,8 +31,8 @@ public class ConferenciaRestController {
 	private IConferenceService ConferenciaService;
 
 	@GetMapping("/listarConferencias") 
-	public List<ConferenciaDTO> listarConferencias() {
-		return ConferenciaService.findAll();
+	public List<ConferenciaConArticulosDTO> listarConferencias() {
+		return ConferenciaService.listarConferencias();
 	}
 
 	@GetMapping("/ContarArticulosConSusConferencias/{idConferencia}") 
@@ -47,7 +47,7 @@ public class ConferenciaRestController {
 
 	@GetMapping("/listarDatosConferenciaConSusArticulos/{idConferencia}") 
 	public ConferenciaConArticulosDTO listarDatosConferenciaConSusArticulos(@PathVariable("idConferencia")  Integer idConferencia) {
-		return ConferenciaService.listarDatosArticuloConSusLibros(idConferencia);
+		return ConferenciaService.listarDatosArticuloConSusConferencias(idConferencia);
 	}
 
 	@GetMapping("/existe/{codigo}")
