@@ -178,7 +178,7 @@ public class VtnRegistrarArticulo1 extends javax.swing.JInternalFrame {
     private void jButtonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarActionPerformed
         System.out.println("Botón Registrar presionado");
         String titulo, autores, resumen;
-
+        
         // Obtiene los datos ingresados por el usuario
         titulo = this.jTextFieldTitulo.getText();
         autores = this.jTextFieldAutores.getText();

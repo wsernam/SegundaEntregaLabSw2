@@ -1,5 +1,6 @@
 package co.edu.unicauca.gui.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -18,6 +19,7 @@ public class Conferencia {
     /**
      * ID único para identificar la conferencia.
      */
+    @JsonProperty("id")
     private int idConferencia;
 
     /**
@@ -53,6 +55,10 @@ public class Conferencia {
      * @param fechaFin Fecha de finalización de la conferencia.
      * @param costoInscripcion Costo de inscripción de la conferencia.
      */
+    public Conferencia() {
+        // Inicializa la lista de artículos para evitar NullPointerException
+        this.articulosEnviados = new ArrayList<>();
+    }
     public Conferencia(String nombre, Date fechaInicio, Date fechaFin, float costoInscripcion) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;

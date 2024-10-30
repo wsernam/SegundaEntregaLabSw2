@@ -11,69 +11,44 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import org.glassfish.jersey.jackson.JacksonFeature;
 
-/**
- *
- * @author sonhuila
- */
 public class ArticuloServices {
     private String endPoint;
     private Client objClientePeticiones;
-    
-    public ArticuloServices()
-    {
+
+    public ArticuloServices() {
         this.endPoint = "http://localhost:1000/api/Articulos";
         this.objClientePeticiones = ClientBuilder.newClient().register(new JacksonFeature());
     }
-    
-    public Articulo consultarArticulo(Integer id)
-    {
-        Articulo objArticulo = null;
-        WebTarget target = this.objClientePeticiones.target(this.endPoint+"/"+id);
+
+    public Articulo consultarArticulo(Integer id) {
+        WebTarget target = this.objClientePeticiones.target(this.endPoint + "/consultarArticulo/" + id);
         Builder objPeticion = target.request(MediaType.APPLICATION_JSON_TYPE);
-        objArticulo = objPeticion.get(Articulo.class);
-        
-        return objArticulo;
+        return objPeticion.get(Articulo.class);
     }
-    
-    public List<Articulo> listarArticulos()
-    {
-        List<Articulo> listaArticulos = null;
-        WebTarget target = this.objClientePeticiones.target(this.endPoint);
+
+    public List<Articulo> listarArticulos() {
+        WebTarget target = this.objClientePeticiones.target(this.endPoint + "/listarArticulos");
         Builder objPeticion = target.request(MediaType.APPLICATION_JSON);
-        listaArticulos = objPeticion.get(new GenericType<List<Articulo>>() {});
-        
-        return listaArticulos;
+        return objPeticion.get(new GenericType<List<Articulo>>() {});
     }
-    
-    public Articulo registrarArticulo(Articulo objArticuloRegistrar)
-    {
-        Articulo objArticulo = null;
-        WebTarget target = this.objClientePeticiones.target(this.endPoint);
+
+    public Articulo registrarArticulo(Articulo objArticuloRegistrar) {
+        WebTarget target = this.objClientePeticiones.target(this.endPoint + "/adicionarArticulo/Crear");
         Entity<Articulo> data = Entity.entity(objArticuloRegistrar, MediaType.APPLICATION_JSON_TYPE);
         Builder objPeticion = target.request(MediaType.APPLICATION_JSON_TYPE);
-        objArticulo = objPeticion.post(data, Articulo.class);
-        
-        return objArticulo;     
+        return objPeticion.post(data, Articulo.class);
     }
-    
-    public Articulo actualizarArticulo(Articulo objArticuloActualizar, Integer id)
-    {
-        Articulo objArticulo = null;
-        WebTarget target = this.objClientePeticiones.target(this.endPoint+"/"+id);
+
+    public Articulo actualizarArticulo(Articulo objArticuloActualizar, Integer id) {
+        WebTarget target = this.objClientePeticiones.target(this.endPoint + "/ActualizarArticulo/" + id);
         Entity<Articulo> data = Entity.entity(objArticuloActualizar, MediaType.APPLICATION_JSON_TYPE);
         Builder objPeticion = target.request(MediaType.APPLICATION_JSON_TYPE);
-        objArticulo = objPeticion.post(data, Articulo.class);
-        
-        return objArticulo;
+        return objPeticion.put(data, Articulo.class);  // Cambiado a PUT
     }
-    
-    public Boolean eliminarArticulo(Integer id)
-    {
-        Boolean bandera = false;
-        WebTarget target = this.objClientePeticiones.target(this.endPoint+"/"+id);
+
+    public Boolean eliminarArticulo(Integer id) {
+        WebTarget target = this.objClientePeticiones.target(this.endPoint + "/eliminarArticulo/" + id);
         Builder objPeticion = target.request(MediaType.APPLICATION_JSON_TYPE);
-        bandera = objPeticion.delete(Boolean.class);
-        
-        return bandera; 
+        return objPeticion.delete(Boolean.class);
     }
 }

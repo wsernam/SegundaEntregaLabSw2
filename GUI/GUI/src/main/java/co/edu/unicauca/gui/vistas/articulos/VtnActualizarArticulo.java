@@ -6,6 +6,7 @@ import co.edu.unicauca.gui.servicios.ArticuloServices;
 import co.edu.unicauca.gui.servicios.ConferenciaServices;
 import co.edu.unicauca.mvc.utilidades.Utilidades;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Ventana para actualizar los datos de un artículo. Permite al usuario
@@ -44,7 +45,7 @@ public class VtnActualizarArticulo extends javax.swing.JInternalFrame {
         this.jTextFieldId.setText(objArticulo.getIdArticulo() + "");
         this.jTextFieldTitulo.setText(objArticulo.getTitulo());
         //this.jTextAreaAutores.setText(objArticulo.getAutores());
-        this.jComboBoxConferencia.setSelectedItem(objArticulo.getObjConferencia());
+        this.jComboBoxConferencia.setSelectedItem(objArticulo.getConferencias());
     }
 
     /**
@@ -222,45 +223,52 @@ public class VtnActualizarArticulo extends javax.swing.JInternalFrame {
      * @param evt Evento de acción del botón
      */
     private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
-        String titulo, autores, id;
-        Conferencia objConferencia;
-        int idArticulo;
+    String titulo, autores, id;
+    List<Conferencia> conferenciasSeleccionadas = new ArrayList<>();
+    int idArticulo;
 
-        try {
-            // Obtener el ID del artículo y convertirlo a entero
-            id = this.jTextFieldId.getText();
-            idArticulo = Integer.parseInt(id);
+    try {
+        // Obtener el ID del artículo y convertirlo a entero
+        id = this.jTextFieldId.getText();
+        idArticulo = Integer.parseInt(id);
 
-            // Obtener el título, autores y conferencia
-            titulo = this.jTextFieldTitulo.getText();
-            autores = this.jTextAreaAutores.getText();
-            objConferencia = (Conferencia) this.jComboBoxConferencia.getSelectedItem();
+        // Obtener el título y los autores
+        titulo = this.jTextFieldTitulo.getText();
+        autores = this.jTextAreaAutores.getText();
 
-            // Consultar el artículo existente en lugar de crear uno nuevo
-            Articulo objArticulo = objServicio1.consultarArticulo(idArticulo);
-
-            // Verificar si el artículo existe
-            if (objArticulo != null) {
-                // Actualizar los datos del artículo
-                objArticulo.setTitulo(titulo);
-                //objArticulo.setAutores(autores);
-                objArticulo.setObjConferencia(objConferencia);
-
-                // Llamar al método actualizarArticulo y pasar el id
-                Articulo articuloActualizado = this.objServicio1.actualizarArticulo(objArticulo, idArticulo);
-
-                if (articuloActualizado != null) {
-                    Utilidades.mensajeExito("Artículo actualizado exitosamente", "Artículo actualizado");
-                } else {
-                    Utilidades.mensajeError("Error al actualizar el artículo", "Error al actualizar");
-                }
-            } else {
-                Utilidades.mensajeError("No se encontró el artículo con ID: " + idArticulo, "Error");
+        // Obtener las conferencias seleccionadas en el ComboBox (suponiendo selección múltiple)
+        for (int i = 0; i < this.jComboBoxConferencia.getItemCount(); i++) {
+            Conferencia conferencia = (Conferencia) this.jComboBoxConferencia.getItemAt(i);
+            if (conferencia != null) {
+                conferenciasSeleccionadas.add(conferencia);
             }
-
-        } catch (NumberFormatException e) {
-            Utilidades.mensajeError("ID de artículo inválido", "Error");
         }
+
+        // Consultar el artículo existente en lugar de crear uno nuevo
+        Articulo objArticulo = objServicio1.consultarArticulo(idArticulo);
+
+        // Verificar si el artículo existe
+        if (objArticulo != null) {
+            // Actualizar los datos del artículo
+            objArticulo.setTitulo(titulo);
+            //objArticulo.setAutores(autores);
+            objArticulo.setConferencias(conferenciasSeleccionadas);
+
+            // Llamar al método actualizarArticulo y pasar el id
+            Articulo articuloActualizado = this.objServicio1.actualizarArticulo(objArticulo, idArticulo);
+
+            if (articuloActualizado != null) {
+                Utilidades.mensajeExito("Artículo actualizado exitosamente", "Artículo actualizado");
+            } else {
+                Utilidades.mensajeError("Error al actualizar el artículo", "Error al actualizar");
+            }
+        } else {
+            Utilidades.mensajeError("No se encontró el artículo con ID: " + idArticulo, "Error");
+        }
+
+    } catch (NumberFormatException e) {
+        Utilidades.mensajeError("ID de artículo inválido", "Error");
+    }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

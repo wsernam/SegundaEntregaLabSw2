@@ -1,5 +1,8 @@
 package co.edu.unicauca.gui.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+
 /**
  *
  * @author sonhuila
@@ -7,23 +10,22 @@ package co.edu.unicauca.gui.models;
 public class Articulo {
     private static int idCounter = 1;
     private int idArticulo;
+    
+    @JsonProperty("nombre")
     private String titulo;
     private String autores;
     private String resumen;
     
-    private Conferencia objConferencia;  
-    
-    /**
-     * Constructor para crear un artículo con un título y autores.
-     * El estado de revisión se inicializa en PENDIENTE.
-     *
-     * @param titulo El título del artículo.
-     * @param autores Los autores del artículo.
-     */
+    @JsonProperty("conferencias")
+    private List<Conferencia> conferencias;  // Cambiar a lista para coincidir con el JSON
+
+    public Articulo() {
+    }
+
     public Articulo(String titulo, String autores, String resumen) {
         this.idArticulo = idCounter++;
         this.titulo = titulo;
-        //this.autores = autores;
+        this.autores = autores;
         this.resumen = resumen;
     }
 
@@ -57,7 +59,7 @@ public class Articulo {
         }
         this.autores = autores;
     }
-    
+
     public String getResumen() {
         return resumen;
     }
@@ -69,13 +71,12 @@ public class Articulo {
         this.resumen = resumen;
     }
 
-    public Conferencia getObjConferencia() {
-        return objConferencia;
+    public List<Conferencia> getConferencias() {
+        return conferencias;
     }
 
-    public void setObjConferencia(Conferencia objConferencia) {
-        this.objConferencia = objConferencia;
+    public void setConferencias(List<Conferencia> conferencias) {
+        this.conferencias = conferencias;
     }
-    
-    
 }
+

@@ -19,61 +19,45 @@ public class ConferenciaServices {
     private String endPoint;
     private Client objClientePeticiones;
     
-    public ConferenciaServices()
-    {
+    public ConferenciaServices() {
         this.endPoint = "http://localhost:5000/api/conferencias";
         this.objClientePeticiones = ClientBuilder.newClient().register(new JacksonFeature());
     }
     
-    public Conferencia consultarConferencia(Integer id)
-    {
-        Conferencia objConferencia = null;
-        WebTarget target = this.objClientePeticiones.target(this.endPoint+"/"+id);
+    // Consultar una conferencia específica
+    public Conferencia consultarConferencia(Integer id) {
+        WebTarget target = this.objClientePeticiones.target(this.endPoint + "/consultarConferencia/" + id);
         Invocation.Builder objPeticion = target.request(MediaType.APPLICATION_JSON_TYPE);
-        objConferencia = objPeticion.get(Conferencia.class);
-        
-        return objConferencia;
+        return objPeticion.get(Conferencia.class);
     }
     
-    public List<Conferencia> listarConferencias()
-    {
-        List<Conferencia> listaConferencias = null;
-        WebTarget target = this.objClientePeticiones.target(this.endPoint);
+    // Listar todas las conferencias
+    public List<Conferencia> listarConferencias() {
+        WebTarget target = this.objClientePeticiones.target(this.endPoint + "/listarConferencias");
         Invocation.Builder objPeticion = target.request(MediaType.APPLICATION_JSON);
-        listaConferencias = objPeticion.get(new GenericType<List<Conferencia>>() {});
-        
-        return listaConferencias;
+        return objPeticion.get(new GenericType<List<Conferencia>>() {});
     }
     
-    public Conferencia registrarConferencia(Conferencia objConferenciaRegistrar)
-    {
-        Conferencia objConferencia = null;
-        WebTarget target = this.objClientePeticiones.target(this.endPoint);
+    // Registrar una nueva conferencia
+    public Conferencia registrarConferencia(Conferencia objConferenciaRegistrar) {
+        WebTarget target = this.objClientePeticiones.target(this.endPoint + "/crearConferencia");
         Entity<Conferencia> data = Entity.entity(objConferenciaRegistrar, MediaType.APPLICATION_JSON_TYPE);
         Invocation.Builder objPeticion = target.request(MediaType.APPLICATION_JSON_TYPE);
-        objConferencia = objPeticion.post(data, Conferencia.class);
-        
-        return objConferencia;     
+        return objPeticion.post(data, Conferencia.class);
     }
     
-    public Conferencia actualizarConferencia(Conferencia objConferenciaActualizar, Integer id)
-    {
-        Conferencia objConferencia = null;
-        WebTarget target = this.objClientePeticiones.target(this.endPoint+"/"+id);
+    // Actualizar una conferencia existente
+    public Conferencia actualizarConferencia(Conferencia objConferenciaActualizar, Integer id) {
+        WebTarget target = this.objClientePeticiones.target(this.endPoint + "/actualizarConferencia/" + id);
         Entity<Conferencia> data = Entity.entity(objConferenciaActualizar, MediaType.APPLICATION_JSON_TYPE);
         Invocation.Builder objPeticion = target.request(MediaType.APPLICATION_JSON_TYPE);
-        objConferencia = objPeticion.post(data, Conferencia.class);
-        
-        return objConferencia;
+        return objPeticion.put(data, Conferencia.class);  // Cambiado a PUT
     }
     
-    public Boolean eliminarConferencia(Integer id)
-    {
-        Boolean bandera = false;
-        WebTarget target = this.objClientePeticiones.target(this.endPoint+"/"+id);
+    // Eliminar una conferencia
+    public Boolean eliminarConferencia(Integer id) {
+        WebTarget target = this.objClientePeticiones.target(this.endPoint + "/eliminarConferencia/" + id);
         Invocation.Builder objPeticion = target.request(MediaType.APPLICATION_JSON_TYPE);
-        bandera = objPeticion.delete(Boolean.class);
-        
-        return bandera; 
+        return objPeticion.delete(Boolean.class);
     }
 }
