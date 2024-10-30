@@ -23,13 +23,20 @@ public class ArticuloRestController {
     @GetMapping("ArticuloDeUnaConferencia/{idConferencia}")
     public List<ArticuloDTO> listandoArticulosDeUnaConferencia(@PathVariable("idConferencia")  Integer idConferencia) {
         System.out.println("Consumiendo servicios para obtener articulo de la conferencia con id "+idConferencia);
-        return articuloService.ListarArticulosDeCliente(idConferencia);
+        return articuloService.ListarArticulosDeConferencia(idConferencia);
     }
 
     @GetMapping("/consultarArticulo/{idArticulo}")
     public ResponseEntity<ArticuloDTO> consultarArticulo(@PathVariable("idArticulo") Integer codigo) {
         ArticuloDTO libro = articuloService.ConsultarArticulo(codigo);
         return libro != null ? ResponseEntity.ok(libro) : ResponseEntity.notFound().build();
+    }
+
+        // Consultar si existe un artículo
+    @GetMapping("/existe/{codigo}")
+    public ResponseEntity<Boolean> existeArticulo(@PathVariable Integer codigo) {
+        boolean existe = articuloService.existeArticulo(codigo);
+        return ResponseEntity.ok(existe);
     }
 
     @PostMapping("/adicionarArticulo/Crear")

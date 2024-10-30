@@ -16,5 +16,7 @@ public interface IArticuloService {
 
 	public boolean eliminarArticulo(Integer Codigo);
 
-	public List<ArticuloDTO> ListarArticulosDeCliente(Integer idCliente);
+	public List<ArticuloDTO> ListarArticulosDeConferencia(Integer idCliente);
+
+	public boolean existeArticulo(Integer codigo);
 }

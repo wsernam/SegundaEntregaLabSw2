@@ -31,10 +31,10 @@ public class ArticuloServicempl implements IArticuloService {
 
 	@Override
 	public List<ArticuloDTO> ListarArticulos() {
-		List<ArticulosEntity> LibroEntity = this.servicioAccesoBaseDatos.ListarArticulos();
-		List<ArticuloDTO> LibroDTO = this.modelMapper.map(LibroEntity, new TypeToken<List<ArticuloDTO>>() {
+		List<ArticulosEntity> ArticuloEntity = this.servicioAccesoBaseDatos.ListarArticulos();
+		List<ArticuloDTO> ArticuloDTO = this.modelMapper.map(ArticuloEntity, new TypeToken<List<ArticuloDTO>>() {
 		}.getType());
-		return LibroDTO;
+		return ArticuloDTO;
 	}
    
     @Override
@@ -55,8 +55,8 @@ public class ArticuloServicempl implements IArticuloService {
     @Override
     public ArticuloDTO AdicionarArticulo(ArticuloDTO Libro) {
         // Implementación para agregar un nuevo libro
-        ArticulosEntity libroEntity = modelMapper.map(Libro, ArticulosEntity.class);
-        ArticulosEntity nuevoArticulo = servicioAccesoBaseDatos.AdicionarArticulo(libroEntity);
+        ArticulosEntity articuloEntity = modelMapper.map(Libro, ArticulosEntity.class);
+        ArticulosEntity nuevoArticulo = servicioAccesoBaseDatos.AdicionarArticulo(articuloEntity);
         ArticuloCreadoEvent evento = new ArticuloCreadoEvent(nuevoArticulo.getIdArticulo(), nuevoArticulo.getNombre(), nuevoArticulo.getResumen(), nuevoArticulo.getConferencias());
         enviarEventoArticuloCreado(evento);
         return modelMapper.map(nuevoArticulo, ArticuloDTO.class);
@@ -77,20 +77,23 @@ public class ArticuloServicempl implements IArticuloService {
     @Override
     public ArticuloDTO ConsultarArticulo(Integer Codigo) {
         // Implementación para consultar un libro
-        ArticulosEntity libroEntity = servicioAccesoBaseDatos.ConsultarArticulo(Codigo);
-        return modelMapper.map(libroEntity, ArticuloDTO.class);
+        ArticulosEntity articuloEntity = servicioAccesoBaseDatos.ConsultarArticulo(Codigo);
+        return modelMapper.map(articuloEntity, ArticuloDTO.class);
     }
 
 
 
     @Override
-    public List<ArticuloDTO> ListarArticulosDeCliente(Integer idCliente) {
+    public List<ArticuloDTO> ListarArticulosDeConferencia(Integer idCliente) {
         List<ArticulosEntity> listaArticulos = this.servicioAccesoBaseDatos.ListarArticulosDeCliente(idCliente);
 		List<ArticuloDTO> listaArticulosDTO = this.modelMapper.map(listaArticulos, new TypeToken<List<ArticuloDTO>>() {
 		}.getType());
 		return listaArticulosDTO;
     }
 
-
-
+    @Override
+    public boolean existeArticulo(Integer codigo) {
+        ArticulosEntity articulo = servicioAccesoBaseDatos.ConsultarArticulo(codigo);
+        return articulo != null;
+    }
 }
