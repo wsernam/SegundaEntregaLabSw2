@@ -116,37 +116,14 @@
                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                   <Component id="jLabelAutores" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextFieldTitulo1" min="-2" pref="163" max="-2" attributes="0"/>
-                          <EmptySpace pref="59" max="32767" attributes="0"/>
-                          <Component id="jLabelResumenFormato" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jComboBoxFormato" min="-2" pref="170" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jButtonRegistrar" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="jLabelTipo" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="jLabelResumenInstitucion" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jComboBoxTipo" min="-2" pref="188" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldTitulo2" min="-2" pref="163" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace pref="382" max="32767" attributes="0"/>
+                          <Component id="jButtonRegistrar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jTextFieldAutores" min="-2" pref="360" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -156,16 +133,16 @@
                           <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                           <Component id="jLabelTitulo" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextFieldTitulo" min="-2" pref="170" max="-2" attributes="0"/>
+                          <Component id="jTextFieldTitulo" min="-2" pref="361" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="jLabelResumen" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextAreaAutores" min="-2" pref="163" max="-2" attributes="0"/>
+                          <Component id="jTextAreaResumen" min="-2" pref="358" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="131" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -176,41 +153,24 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jTextFieldTitulo" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelTitulo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelTipo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBoxTipo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="jLabelAutores" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jComboBoxFormato" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabelResumenFormato" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <Component id="jLabelAutores" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabelResumen" min="-2" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabelResumenInstitucion" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldTitulo2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                                   <Component id="jButtonRegistrar" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jTextFieldTitulo1" min="-2" pref="78" max="-2" attributes="0"/>
+                          <Component id="jTextFieldAutores" min="-2" pref="78" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jTextAreaAutores" min="-2" pref="78" max="-2" attributes="0"/>
+                          <Component id="jTextAreaResumen" min="-2" pref="78" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="28" max="32767" attributes="0"/>
@@ -243,73 +203,11 @@
             <Property name="text" type="java.lang.String" value="Resumen: "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldTitulo1">
+        <Component class="javax.swing.JTextField" name="jTextFieldAutores">
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextAreaAutores">
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldTitulo2">
-        </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBoxTipo">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="7">
-                <StringItem index="0" value="Art&#xed;culo de Investigaci&#xf3;n"/>
-                <StringItem index="1" value="Art&#xed;culo de Revisi&#xf3;n"/>
-                <StringItem index="2" value="Estudio de Caso"/>
-                <StringItem index="3" value="Art&#xed;culo de Opini&#xf3;n"/>
-                <StringItem index="4" value="Art&#xed;culo Metodol&#xf3;gico"/>
-                <StringItem index="5" value="Art&#xed;culo de Reporte"/>
-                <StringItem index="6" value="Art&#xed;culo de Conferencia"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBoxFormato">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="7">
-                <StringItem index="0" value="PDF"/>
-                <StringItem index="1" value="DOCX"/>
-                <StringItem index="2" value="LaTeX"/>
-                <StringItem index="3" value="RTF"/>
-                <StringItem index="4" value="ODT"/>
-                <StringItem index="5" value="HTML"/>
-                <StringItem index="6" value="TXT"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
+        <Component class="javax.swing.JTextField" name="jTextAreaResumen">
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldTitulo">
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabelResumenInstitucion">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Gloucester MT Extra Condensed" size="14" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Instituci&#xf3;n: "/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabelResumenFormato">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Gloucester MT Extra Condensed" size="14" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Formato: "/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabelTipo">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Gloucester MT Extra Condensed" size="14" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Tipo: "/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonRegistrar">
           <Properties>
