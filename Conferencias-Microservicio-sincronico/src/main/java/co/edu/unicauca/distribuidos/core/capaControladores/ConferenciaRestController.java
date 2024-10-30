@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,16 +34,27 @@ public class ConferenciaRestController {
 	public List<ConferenciaDTO> listarConferencias() {
 		return ConferenciaService.findAll();
 	}
+
+	@GetMapping("/ContarArticulosConSusConferencias/{idConferencia}") 
+	public int ContarArticulosConSusConferencias(@PathVariable("idConferencia")  Integer idConferencia) {
+		return ConferenciaService.ListarArticulosDeConferencia(idConferencia).size();
+	}
 	
-	@GetMapping("/ListarArticulosDeConferencia/{idArticulo}") 
-	public List<co.edu.unicauca.distribuidos.core.fachadaServices.DTO.ArticulosConConferenciasDTO.ArticuloDTO> listarArticulosConSusConferencias(@PathVariable("idArticulo")  Integer idArticulo) {
-		return ConferenciaService.ListarArticulosDeConferencia(idArticulo);
+	@GetMapping("/ListarArticulosDeConferencia/{idConferencia}") 
+	public List<co.edu.unicauca.distribuidos.core.fachadaServices.DTO.ArticulosConConferenciasDTO.ArticuloDTO> listarArticulosConSusConferencias(@PathVariable("idConferencia")  Integer idConferencia) {
+		return ConferenciaService.ListarArticulosDeConferencia(idConferencia);
 	}
 
 	@GetMapping("/listarDatosConferenciaConSusArticulos/{idConferencia}") 
 	public ConferenciaConArticulosDTO listarDatosConferenciaConSusArticulos(@PathVariable("idConferencia")  Integer idConferencia) {
 		return ConferenciaService.listarDatosArticuloConSusLibros(idConferencia);
 	}
+
+	@GetMapping("/existe/{codigo}")
+    public ResponseEntity<Boolean> existeArticulo(@PathVariable Integer codigo) {
+        boolean existe = ConferenciaService.existeConferencia(codigo);
+        return ResponseEntity.ok(existe);
+    }
 
 	@GetMapping("/consultarConferencia/{idConferencia}")
 	public ConferenciaDTO consultarConferencia(@PathVariable("idConferencia") Integer id) {

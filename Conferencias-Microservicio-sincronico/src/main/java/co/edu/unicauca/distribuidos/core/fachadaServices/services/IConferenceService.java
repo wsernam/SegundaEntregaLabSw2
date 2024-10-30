@@ -22,4 +22,6 @@ public interface IConferenceService {
 	public List<ArticuloDTO> ListarArticulosDeConferencia(Integer idConferencia);
 
 	public ConferenciaConArticulosDTO listarDatosArticuloConSusLibros(Integer idConferencia) ;
+
+	public boolean existeConferencia(Integer codigo);
 }

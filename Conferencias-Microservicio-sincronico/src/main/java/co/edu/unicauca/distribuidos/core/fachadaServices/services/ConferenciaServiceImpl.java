@@ -46,8 +46,8 @@ public class ConferenciaServiceImpl implements IConferenceService {
 	}
 
 	@Override
-	public ConferenciaDTO save(ConferenciaDTO cliente) {
-		ConferenciaEntity clienteEntity = this.modelMapper.map(cliente, ConferenciaEntity.class);
+	public ConferenciaDTO save(ConferenciaDTO conferencia) {
+		ConferenciaEntity clienteEntity = this.modelMapper.map(conferencia, ConferenciaEntity.class);
 		ConferenciaEntity objCLienteEntity = this.servicioAccesoBaseDatos.save(clienteEntity);
 		ConferenciaDTO ConferenciaDTO = this.modelMapper.map(objCLienteEntity, ConferenciaDTO.class);
 		ConferenciaCreadaEvent evento = new ConferenciaCreadaEvent(objCLienteEntity.getId(), objCLienteEntity.getNombre(), objCLienteEntity.getFechaInicio(), objCLienteEntity.getFechaFin());
@@ -56,12 +56,12 @@ public class ConferenciaServiceImpl implements IConferenceService {
 	}
 
 	@Override
-	public ConferenciaDTO update(Integer id, ConferenciaDTO cliente) {
-		ConferenciaEntity conferenciaEntity = this.modelMapper.map(cliente, ConferenciaEntity.class);
+	public ConferenciaDTO update(Integer id, ConferenciaDTO conferencia) {
+		ConferenciaEntity conferenciaEntity = this.modelMapper.map(conferencia, ConferenciaEntity.class);
 		conferenciaEntity.setId(id);  // Asegura que el ID es correcto
 		ConferenciaEntity conferenciaEntityActualizado = this.servicioAccesoBaseDatos.update(id, conferenciaEntity);
-		ConferenciaDTO clienteDTO = this.modelMapper.map(conferenciaEntityActualizado, ConferenciaDTO.class);
-		return clienteDTO;
+		ConferenciaDTO ConferenciaDTO = this.modelMapper.map(conferenciaEntityActualizado, ConferenciaDTO.class);
+		return ConferenciaDTO;
 	}
 
 	@Override
@@ -70,20 +70,26 @@ public class ConferenciaServiceImpl implements IConferenceService {
 	}
 
 	@Override
-	public List<ArticuloDTO> ListarArticulosDeConferencia(Integer idCliente) {
+	public List<ArticuloDTO> ListarArticulosDeConferencia(Integer idConferencia) {
 		//invocación sincrona de servicio web que permite obtener los articulos de de la conferencia	
 		List<ArticuloDTO> listaArticulosConferencia;
-		listaArticulosConferencia=this.servicioConsumirObtencionArticulos.obtenerLibrosDeCliente(idCliente);
+		listaArticulosConferencia=this.servicioConsumirObtencionArticulos.obtenerLibrosDeCliente(idConferencia);
 		return listaArticulosConferencia;
 	}
 
 	@Override
-	public ConferenciaConArticulosDTO listarDatosArticuloConSusLibros(Integer idCliente) {
+	public ConferenciaConArticulosDTO listarDatosArticuloConSusLibros(Integer idArticulos) {
 		List<ArticuloDTO> listaArticulosConferencia;
-		listaArticulosConferencia=this.servicioConsumirObtencionArticulos.obtenerLibrosDeCliente(idCliente);
-		ConferenciaEntity objCLienteEntity = this.servicioAccesoBaseDatos.findById(idCliente);
-		ConferenciaDTO objClienteDTO = this.modelMapper.map(objCLienteEntity, ConferenciaDTO.class);		
-		ConferenciaConArticulosDTO objCliente= new ConferenciaConArticulosDTO(objClienteDTO, listaArticulosConferencia);
-		return objCliente;
+		listaArticulosConferencia=this.servicioConsumirObtencionArticulos.obtenerLibrosDeCliente(idArticulos);
+		ConferenciaEntity objConferenciaEntity = this.servicioAccesoBaseDatos.findById(idArticulos);
+		ConferenciaDTO objConferenciaDTO = this.modelMapper.map(objConferenciaEntity, ConferenciaDTO.class);		
+		ConferenciaConArticulosDTO objConferencia= new ConferenciaConArticulosDTO(objConferenciaDTO, listaArticulosConferencia);
+		return objConferencia;
 	}
+
+	@Override
+	public boolean existeConferencia(Integer codigo) {
+        ConferenciaEntity conferencia = servicioAccesoBaseDatos.findById(codigo);
+        return conferencia != null;
+    }
 }
