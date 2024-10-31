@@ -271,7 +271,6 @@ private void llenarTabla() {
     
     private void elimininarCliente(String idConferencia)
     {
-        try{  
                 if(Utilidades.mensajeConfirmacion("� Estas seguro de que quieres eliminar al cliente con id " + idConferencia + " " 
                     +" ?", "Confirmacion") == 0){
                    Integer idConferenciaEntero=Integer.valueOf(idConferencia); 
@@ -287,9 +286,6 @@ private void llenarTabla() {
 
                    }
                 }
-            }catch(Exception ex){
-                Utilidades.mensajeError("Error al eliminar la conferencia. Intentelo de nuevo mas tarde", "Error");
-        }  
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

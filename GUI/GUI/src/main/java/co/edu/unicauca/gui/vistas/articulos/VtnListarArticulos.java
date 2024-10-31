@@ -279,7 +279,6 @@ private void llenarTabla() {
     }
 
     private void eliminarArticulo(String idArticulo) {
-        try {
             if (Utilidades.mensajeConfirmacion("¿Estás seguro de que quieres eliminar el artículo con ID " + idArticulo + "?", "Confirmación") == 0) {
                 int idArticuloEntero = Integer.parseInt(idArticulo);
                 boolean eliminado = this.objServicio.eliminarArticulo(idArticuloEntero);
@@ -290,9 +289,6 @@ private void llenarTabla() {
                     Utilidades.mensajeAdvertencia("El artículo con ID " + idArticulo + " no fue eliminado", "Error al Eliminar");
                 }
             }
-        } catch (Exception ex) {
-            Utilidades.mensajeError("Error al eliminar el artículo. Inténtelo de nuevo más tarde.", "Error");
-        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

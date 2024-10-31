@@ -50,8 +50,6 @@ public class VtnRegistrarArticulo1 extends javax.swing.JInternalFrame {
         jTextAreaResumen = new javax.swing.JTextField();
         jTextFieldTitulo = new javax.swing.JTextField();
         jButtonRegistrar = new javax.swing.JButton();
-        jLabelTitulo1 = new javax.swing.JLabel();
-        jTextFieldIdConferencia = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -113,25 +111,15 @@ public class VtnRegistrarArticulo1 extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabelTitulo1.setFont(new java.awt.Font("Gloucester MT Extra Condensed", 0, 14)); // NOI18N
-        jLabelTitulo1.setText("IdConferencia");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jLabelResumen)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextAreaResumen, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabelTitulo1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldIdConferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(30, 30, 30)
+                .addComponent(jLabelResumen)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextAreaResumen, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 133, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
@@ -153,11 +141,7 @@ public class VtnRegistrarArticulo1 extends javax.swing.JInternalFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldIdConferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelTitulo1))
-                .addGap(11, 11, 11)
+                .addGap(37, 37, 37)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelTitulo)
                     .addComponent(jTextFieldTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -175,7 +159,7 @@ public class VtnRegistrarArticulo1 extends javax.swing.JInternalFrame {
                         .addComponent(jTextFieldAutores, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextAreaResumen, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -192,9 +176,7 @@ public class VtnRegistrarArticulo1 extends javax.swing.JInternalFrame {
     private void jButtonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarActionPerformed
         System.out.println("Botón Registrar presionado");
         String titulo, autores, resumen;
-        int idConferencia;
-        // Obtiene los datos ingresados por el usuario
-        idConferencia = Integer.parseInt(this.jTextFieldIdConferencia.getText());
+        // Obtiene los datos ingresados por el usuari
         titulo = this.jTextFieldTitulo.getText();
         autores = this.jTextFieldAutores.getText();
         resumen = this.jTextAreaResumen.getText();
@@ -220,13 +202,11 @@ public class VtnRegistrarArticulo1 extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabelEncabezado;
     private javax.swing.JLabel jLabelResumen;
     private javax.swing.JLabel jLabelTitulo;
-    private javax.swing.JLabel jLabelTitulo1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField jTextAreaResumen;
     private javax.swing.JTextField jTextFieldAutores;
-    private javax.swing.JTextField jTextFieldIdConferencia;
     private javax.swing.JTextField jTextFieldTitulo;
     // End of variables declaration//GEN-END:variables
 }
