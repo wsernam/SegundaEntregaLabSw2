@@ -57,7 +57,7 @@ public class ArticuloServicempl implements IArticuloService {
         // Implementación para agregar un nuevo libro
         ArticulosEntity articuloEntity = modelMapper.map(Libro, ArticulosEntity.class);
         ArticulosEntity nuevoArticulo = servicioAccesoBaseDatos.AdicionarArticulo(articuloEntity);
-        ArticuloCreadoEvent evento = new ArticuloCreadoEvent(nuevoArticulo.getIdArticulo(), nuevoArticulo.getNombre(), nuevoArticulo.getResumen(), nuevoArticulo.getConferencias());
+        ArticuloCreadoEvent evento = new ArticuloCreadoEvent(nuevoArticulo.getIdArticulo(), nuevoArticulo.getNombre(), nuevoArticulo.getAutores(),nuevoArticulo.getResumen(), nuevoArticulo.getConferencias());
         enviarEventoArticuloCreado(evento);
         return modelMapper.map(nuevoArticulo, ArticuloDTO.class);
     }

@@ -117,11 +117,11 @@ public class ArticuloRepository {
 		objCliente5.setId(2);
 		listaClientesLibro3.add(objCliente5);
 
-		ArticulosEntity objLibro1 = new ArticulosEntity(1, "Frankenteis", "Frankestein", listaClientesLibro1);
+		ArticulosEntity objLibro1 = new ArticulosEntity(1, "Frankenteis", "romeo, julia","Frankestein", listaClientesLibro1);
 		this.listaDeArticulos.add(objLibro1);
-		ArticulosEntity objLibro2 = new ArticulosEntity(2, "Frankenteis", "Frankestein", listaClientesLibro2);
+		ArticulosEntity objLibro2 = new ArticulosEntity(2, "Frankenteis","romeo, julia", "Frankestein", listaClientesLibro2);
 		this.listaDeArticulos.add(objLibro2);
-		ArticulosEntity objLibro3 = new ArticulosEntity(3, "Frankenteis", "Frankestein", listaClientesLibro3);
+		ArticulosEntity objLibro3 = new ArticulosEntity(3, "Frankenteis","romeo, julia", "Frankestein", listaClientesLibro3);
 		this.listaDeArticulos.add(objLibro3);
     
 		

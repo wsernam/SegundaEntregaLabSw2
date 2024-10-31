@@ -17,6 +17,7 @@ public class ArticuloCreadoEvent implements Serializable{
     
     private Integer idArticulo;
     private String nombre;
+    private String autores;
     private String resumen;
     private List<ConferenciaEntity> conferencias;
     

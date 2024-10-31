@@ -13,6 +13,7 @@ import lombok.Setter;
 public class ArticuloDTO {
 	private int idArticulo;
     private String nombre;
+    private String autores;
     private String resumen;
 	private List<ConferenciaEntity> conferencias;
 

@@ -12,6 +12,7 @@ import lombok.Setter;
 public class ArticulosEntity {
 	private int idArticulo;
     private String nombre;
+    private String autores;
     private String resumen;
 	private List<ConferenciaEntity> conferencias;
 
