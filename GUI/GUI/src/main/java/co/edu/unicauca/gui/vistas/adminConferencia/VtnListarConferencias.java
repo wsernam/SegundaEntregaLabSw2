@@ -1,11 +1,14 @@
 package co.edu.unicauca.gui.vistas.adminConferencia;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import co.edu.unicauca.gui.models.Conferencia;
 import co.edu.unicauca.gui.servicios.ConferenciaServices;
+import co.edu.unicauca.gui.vistas.articulos.Render;
+import co.edu.unicauca.mvc.utilidades.Utilidades;
+import java.util.List;
+import javax.swing.JButton;
 
 /**
  * Ventana para listar conferencias en el sistema.
@@ -26,6 +29,7 @@ public class VtnListarConferencias extends javax.swing.JInternalFrame {
     public VtnListarConferencias(ConferenciaServices objServicioAlmacenamiento) {
         initComponents();
         this.objServicioAlmacenamiento=objServicioAlmacenamiento;
+        this.jTableListadoConferencias.setDefaultRenderer(Object.class, new Render());
         iniciarlizarTabla();
     }
     
@@ -38,7 +42,8 @@ public class VtnListarConferencias extends javax.swing.JInternalFrame {
        model.addColumn("Nombre");       
        model.addColumn("Fecha de inicio");
        model.addColumn("Fecha de fin");
-       model.addColumn("Costo");
+       model.addColumn("actualizar");
+       model.addColumn("eliminar");
        this.jTableListadoConferencias.setModel(model);
     }
     
@@ -61,14 +66,23 @@ public class VtnListarConferencias extends javax.swing.JInternalFrame {
     {
         DefaultTableModel model=(DefaultTableModel) this.jTableListadoConferencias.getModel();
         limpiarTabla();
-        ArrayList<Conferencia> listaConferencias= (ArrayList<Conferencia>) this.objServicioAlmacenamiento.listarConferencias();
+        List<Conferencia> listaConferencias= this.objServicioAlmacenamiento.listarConferencias();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
        
         for (int i = 0; i < listaConferencias.size(); i++) {
-            String [] fila= { listaConferencias.get(i).getNombre(), formatter.format(listaConferencias.get(i).getFechaInicio()),formatter.format(listaConferencias.get(i).getFechaFin()),listaConferencias.get(i).getCostoInscripcion()+""};
+            JButton JButtonActualizarConferencia = new JButton();
+            JButtonActualizarConferencia.setName("Actualizar");
+            JButtonActualizarConferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/lapiz.png")));
+
+            
+            JButton JButtonEliminarConferencia = new JButton();
+            JButtonEliminarConferencia.setName("Eliminar");
+            JButtonEliminarConferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/remove.png")));
+
+            
+            Object [] fila= { listaConferencias.get(i).getIdConferencia()+"", listaConferencias.get(i).getNombre(), formatter.format(listaConferencias.get(i).getFechaInicio()),formatter.format(listaConferencias.get(i).getFechaFin())+"",JButtonActualizarConferencia,JButtonEliminarConferencia};
             model.addRow(fila);
-        }
-        
+        }  
     }
     
     /**
@@ -158,6 +172,11 @@ public class VtnListarConferencias extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTableListadoConferencias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableListadoConferenciasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableListadoConferencias);
 
         javax.swing.GroupLayout jPanelCentralLayout = new javax.swing.GroupLayout(jPanelCentral);
@@ -203,6 +222,61 @@ public class VtnListarConferencias extends javax.swing.JInternalFrame {
         objVtnRegistrarConferencia.setVisible(true);
     }//GEN-LAST:event_jButtonRegistrarActionPerformed
 
+    private void jTableListadoConferenciasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListadoConferenciasMouseClicked
+       int column = this.jTableListadoConferencias.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY()/jTableListadoConferencias.getRowHeight();
+        
+        if(row < jTableListadoConferencias.getRowCount() && row >= 0 && column < jTableListadoConferencias.getColumnCount() && column >= 0){
+            Object value = jTableListadoConferencias.getValueAt(row, column);
+            
+            if(value instanceof JButton){
+                
+                ((JButton)value).doClick();
+                JButton boton = (JButton) value;
+                
+                String idCliente = jTableListadoConferencias.getValueAt(row, 0).toString();
+               
+                if(boton.getName().equals("Eliminar")){
+                   this.elimininarCliente(idCliente);
+                }
+                else if(boton.getName().equals("Actualizar")){
+                   this.actualizarConferencia(idCliente);
+                }
+            }
+        } 
+    }//GEN-LAST:event_jTableListadoConferenciasMouseClicked
+    private void actualizarConferencia(String idConferencia)
+    {
+        Integer idConferenciaEntero=Integer.valueOf(idConferencia);
+        Conferencia objCliente= this.objServicioAlmacenamiento.consultarConferencia(idConferenciaEntero);
+        VtnActualizarConferencia vtnObjActualizarConferencia= new VtnActualizarConferencia(this.objServicioAlmacenamiento);
+        vtnObjActualizarConferencia.actualizarFormularioConferencia(idConferenciaEntero, objCliente);
+        vtnObjActualizarConferencia.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        vtnObjActualizarConferencia.setVisible(true);
+    }
+    
+    private void elimininarCliente(String idConferencia)
+    {
+        try{  
+                if(Utilidades.mensajeConfirmacion("� Estas seguro de que quieres eliminar al cliente con id " + idConferencia + " " 
+                    +" ?", "Confirmacion") == 0){
+                   Integer idConferenciaEntero=Integer.valueOf(idConferencia); 
+                   boolean bandera=this.objServicioAlmacenamiento.eliminarConferencia(idConferenciaEntero);
+                   if(bandera==true)
+                   {
+                       Utilidades.mensajeExito("La conferencia con id " + idConferencia + " fue eliminado exitosamente", "Cliente eliminado");
+                       llenarTabla();
+                   }
+                   else
+                   {
+                       Utilidades.mensajeAdvertencia("La conferencia con id " + idConferencia + " no fue eliminada", "Error al eliminar");
+
+                   }
+                }
+            }catch(Exception ex){
+                Utilidades.mensajeError("Error al eliminar la conferencia. Intentelo de nuevo mas tarde", "Error");
+        }  
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonActualizar;

@@ -6,6 +6,7 @@ import co.edu.unicauca.mvc.utilidades.Utilidades;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.SwingWorker;
 
 /**
  * Ventana para registrar una nueva conferencia en el sistema.
@@ -44,12 +45,10 @@ public class VtnRegistrarConferencia extends javax.swing.JFrame {
         jLabelNombre = new javax.swing.JLabel();
         jLabelFechaInicio = new javax.swing.JLabel();
         jLabelFechaFin = new javax.swing.JLabel();
-        jLabelCosto = new javax.swing.JLabel();
         jButtonRegistrar = new javax.swing.JButton();
         jTextFieldNombre = new javax.swing.JTextField();
         jTextFieldFechaInicio = new javax.swing.JTextField();
         jTextFieldFechaFin = new javax.swing.JTextField();
-        jTextFieldCosto = new javax.swing.JTextField();
 
         jPanelSuperior.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -99,8 +98,6 @@ public class VtnRegistrarConferencia extends javax.swing.JFrame {
 
         jLabelFechaFin.setText("Fecha Fin:");
 
-        jLabelCosto.setText("Costo:");
-
         jButtonRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonRegistrar.setForeground(new java.awt.Color(0, 0, 153));
         jButtonRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/grabar.png"))); // NOI18N
@@ -118,18 +115,16 @@ public class VtnRegistrarConferencia extends javax.swing.JFrame {
             .addGroup(jPanelCentralLayout.createSequentialGroup()
                 .addGap(110, 110, 110)
                 .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelCosto)
                     .addComponent(jLabelFechaFin)
                     .addComponent(jLabelFechaInicio)
                     .addComponent(jLabelNombre))
                 .addGap(70, 70, 70)
                 .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextFieldNombre)
-                        .addComponent(jTextFieldFechaInicio)
-                        .addComponent(jTextFieldCosto, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
+                        .addComponent(jTextFieldNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                        .addComponent(jTextFieldFechaInicio))
                     .addComponent(jTextFieldFechaFin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addContainerGap(176, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCentralLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonRegistrar)
@@ -150,11 +145,7 @@ public class VtnRegistrarConferencia extends javax.swing.JFrame {
                 .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelFechaFin)
                     .addComponent(jTextFieldFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(jPanelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelCosto)
-                    .addComponent(jTextFieldCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                 .addComponent(jButtonRegistrar)
                 .addGap(25, 25, 25))
         );
@@ -174,46 +165,71 @@ public class VtnRegistrarConferencia extends javax.swing.JFrame {
      * @param evt Evento que desencadena la acción.
      */
     private void jButtonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarActionPerformed
+        jButtonRegistrar.setEnabled(false); // Deshabilitar el botón para evitar múltiples clics
 
-        String nombre, fechaInicio, fechaFin, costo;
-        Date fechaInicioDate = null, fechaFinDate = null;
-        float costoInscripcion;
-        boolean bandera;
+        // Recoger datos de la interfaz gráfica
+        String nombre = this.jTextFieldNombre.getText();
+        String fechaInicio = this.jTextFieldFechaInicio.getText();
+        String fechaFin = this.jTextFieldFechaFin.getText();
 
-        nombre = this.jTextFieldNombre.getText();
-        fechaInicio = this.jTextFieldFechaInicio.getText();
-        fechaFin = this.jTextFieldFechaFin.getText();
-        costo = this.jTextFieldCosto.getText();
+        // Validación de datos de entrada
+        if (nombre.isEmpty() || fechaInicio.isEmpty() || fechaFin.isEmpty()) {
+            Utilidades.mensajeAdvertencia("Por favor, complete todos los campos", "Campos incompletos");
+            jButtonRegistrar.setEnabled(true);
+            return;
+        }
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            fechaInicioDate = formatter.parse(fechaInicio);
-            try {
-                fechaFinDate = formatter.parse(fechaFin);
+        // Crear un SwingWorker para registrar la conferencia en segundo plano
+        SwingWorker<Conferencia, Void> worker = new SwingWorker<Conferencia, Void>() {
+            @Override
+            protected Conferencia doInBackground() throws Exception {
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date fechaInicioDate, fechaFinDate;
 
-                costoInscripcion = Float.parseFloat(costo);
-
-                Conferencia objConferencia = new Conferencia(nombre, fechaInicioDate, fechaFinDate, costoInscripcion);
-                Conferencia conferenciaRegistrada = this.objServicioAlmacenamiento.registrarConferencia(objConferencia);
-
-                if (conferenciaRegistrada != null) {
-                    Utilidades.mensajeExito("El registro de la conferencia fue exitoso", "Registro exitoso");
-                } else {
-                    Utilidades.mensajeError("El registro de la conferencia no se realizó", "Error en el registro");
+                try {
+                    // Intentar convertir las fechas y el costo
+                    fechaInicioDate = formatter.parse(fechaInicio);
+                    fechaFinDate = formatter.parse(fechaFin);
+                } catch (ParseException ex) {
+                    throw new IllegalArgumentException("Formato de fecha incorrecto");
+                } catch (NumberFormatException ex) {
+                    throw new IllegalArgumentException("Formato de costo incorrecto");
                 }
-            } catch (ParseException ex) {
-                Utilidades.mensajeAdvertencia("La fecha de fin no sigue el formato dd/MM/yyyy", "Fecha incorrecta");
+
+                // Crear el objeto Conferencia
+                Conferencia objConferencia = new Conferencia(nombre, fechaInicioDate, fechaFinDate);
+
+                // Llamar al servicio de almacenamiento para registrar la conferencia
+                return objServicioAlmacenamiento.registrarConferencia(objConferencia);
             }
 
-        } catch (ParseException ex) {
-            Utilidades.mensajeAdvertencia("La fecha de inicio no sigue el formato dd/MM/yyyy", "Fecha incorrecta");
-        }
+            @Override
+            protected void done() {
+                try {
+                    Conferencia conferenciaRegistrada = get(); // Obtener el resultado del registro
+                    if (conferenciaRegistrada != null) {
+                        Utilidades.mensajeExito("El registro de la conferencia fue exitoso", "Registro exitoso");
+                    } else {
+                        Utilidades.mensajeError("El registro de la conferencia no se realizó", "Error en el registro");
+                    }
+                } catch (IllegalArgumentException e) {
+                    Utilidades.mensajeAdvertencia(e.getMessage(), "Error en los datos de entrada");
+                } catch (Exception e) {
+                    System.err.println("Error al registrar la conferencia: " + e.getMessage());
+                    Utilidades.mensajeError("Ocurrió un error al intentar registrar la conferencia", "Error inesperado");
+                } finally {
+                    jButtonRegistrar.setEnabled(true); // Habilitar el botón nuevamente
+                }
+            }
+        };
+
+        // Ejecutar el SwingWorker para realizar la tarea en segundo plano
+        worker.execute();
     }//GEN-LAST:event_jButtonRegistrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonRegistrar;
-    private javax.swing.JLabel jLabelCosto;
     private javax.swing.JLabel jLabelFechaFin;
     private javax.swing.JLabel jLabelFechaInicio;
     private javax.swing.JLabel jLabelNombre;
@@ -221,7 +237,6 @@ public class VtnRegistrarConferencia extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelCentral;
     private javax.swing.JPanel jPanelInferior;
     private javax.swing.JPanel jPanelSuperior;
-    private javax.swing.JTextField jTextFieldCosto;
     private javax.swing.JTextField jTextFieldFechaFin;
     private javax.swing.JTextField jTextFieldFechaInicio;
     private javax.swing.JTextField jTextFieldNombre;

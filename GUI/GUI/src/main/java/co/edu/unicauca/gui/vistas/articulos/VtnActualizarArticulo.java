@@ -17,34 +17,28 @@ import java.util.List;
  */
 public class VtnActualizarArticulo extends javax.swing.JInternalFrame {
 
-    private ArticuloServices objServicio1;
-    private ConferenciaServices objServicio2;
+    private final ArticuloServices objArticuloServices;
+    private final ConferenciaServices objConferenciaServices;
+    private Integer idArticuloActual;
 
-    /**
-     * Constructor de la clase VtnActualizarArticulo.
-     *
-     * @param objServicio1 Servicio de almacenamiento de artículos
-     * @param objServicio2 Servicio de almacenamiento de conferencias
-     */
-    public VtnActualizarArticulo(
-            ArticuloServices objServicio1,
-            ConferenciaServices objServicio2) {
+    public VtnActualizarArticulo(ArticuloServices objArticuloServices, ConferenciaServices objConferenciaServices) {
         initComponents();
-        this.objServicio1 = objServicio1;
-        this.objServicio2 = objServicio2;
-        cargarConferencias();
+        this.objArticuloServices = objArticuloServices;
+        this.objConferenciaServices = objConferenciaServices;
     }
 
     /**
      * Carga los datos del artículo en los campos de texto.
      *
+     * @param idArticuloActual
+     * @param objArticulo
      * @param idArticulo ID del artículo a cargar
      */
-    public void cargarDatos(int idArticulo) {
-        Articulo objArticulo = this.objServicio1.consultarArticulo(idArticulo);
+    public void actualizarFormularioArticulo(int idArticuloActual, Articulo objArticulo) {
+        this.idArticuloActual = idArticuloActual;
         this.jTextFieldId.setText(objArticulo.getIdArticulo() + "");
         this.jTextFieldTitulo.setText(objArticulo.getTitulo());
-        //this.jTextAreaAutores.setText(objArticulo.getAutores());
+        this.jTextAreaAutores.setText(String.join(", ", objArticulo.getAutores()));
         this.jComboBoxConferencia.setSelectedItem(objArticulo.getConferencias());
     }
 
@@ -52,10 +46,9 @@ public class VtnActualizarArticulo extends javax.swing.JInternalFrame {
      * Carga las conferencias disponibles en el JComboBox.
      */
     public void cargarConferencias() {
-
-        ArrayList<Conferencia> conferencias = (ArrayList<Conferencia>) this.objServicio2.listarConferencias();
-        for (int i = 0; i < conferencias.size(); i++) {
-            this.jComboBoxConferencia.addItem(conferencias.get(i));
+        ArrayList<Conferencia> conferencias = (ArrayList<Conferencia>) this.objConferenciaServices.listarConferencias();
+        for (Conferencia conferencia : conferencias) {
+            this.jComboBoxConferencia.addItem(conferencia);
         }
     }
 
@@ -223,52 +216,50 @@ public class VtnActualizarArticulo extends javax.swing.JInternalFrame {
      * @param evt Evento de acción del botón
      */
     private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
-    String titulo, autores, id;
-    List<Conferencia> conferenciasSeleccionadas = new ArrayList<>();
-    int idArticulo;
+        String titulo, autoresTexto, id;
+        int idArticulo;
 
-    try {
-        // Obtener el ID del artículo y convertirlo a entero
-        id = this.jTextFieldId.getText();
-        idArticulo = Integer.parseInt(id);
+        try {
+            // Obtener el ID del artículo y convertirlo a entero
+            id = this.jTextFieldId.getText();
+            idArticulo = Integer.parseInt(id);
 
-        // Obtener el título y los autores
-        titulo = this.jTextFieldTitulo.getText();
-        autores = this.jTextAreaAutores.getText();
+            // Obtener el título y los autores
+            titulo = this.jTextFieldTitulo.getText();
+            autoresTexto = this.jTextAreaAutores.getText();
 
-        // Obtener las conferencias seleccionadas en el ComboBox (suponiendo selección múltiple)
-        for (int i = 0; i < this.jComboBoxConferencia.getItemCount(); i++) {
-            Conferencia conferencia = (Conferencia) this.jComboBoxConferencia.getItemAt(i);
-            if (conferencia != null) {
-                conferenciasSeleccionadas.add(conferencia);
-            }
-        }
+            // Obtener la conferencia seleccionada en el ComboBox
+            Conferencia conferenciaSeleccionada = (Conferencia) this.jComboBoxConferencia.getSelectedItem();
 
-        // Consultar el artículo existente en lugar de crear uno nuevo
-        Articulo objArticulo = objServicio1.consultarArticulo(idArticulo);
+            // Consultar el artículo existente en lugar de crear uno nuevo
+            Articulo objArticulo = objArticuloServices.consultarArticulo(idArticulo);
 
-        // Verificar si el artículo existe
-        if (objArticulo != null) {
-            // Actualizar los datos del artículo
-            objArticulo.setTitulo(titulo);
-            //objArticulo.setAutores(autores);
-            objArticulo.setConferencias(conferenciasSeleccionadas);
+            // Verificar si el artículo existe
+            if (objArticulo != null) {
+                // Actualizar los datos del artículo
+                objArticulo.setTitulo(titulo);
+                objArticulo.setAutores(autoresTexto);
 
-            // Llamar al método actualizarArticulo y pasar el id
-            Articulo articuloActualizado = this.objServicio1.actualizarArticulo(objArticulo, idArticulo);
+                // Crear un arreglo para la conferencia seleccionada y convertirlo a lista
+                List<Conferencia> conferencias = new ArrayList<>();
+                conferencias.add(conferenciaSeleccionada); // Añadir la conferencia seleccionada
+                objArticulo.setConferencias(conferencias); // Asignar la lista al artículo
 
-            if (articuloActualizado != null) {
-                Utilidades.mensajeExito("Artículo actualizado exitosamente", "Artículo actualizado");
+                // Llamar al método actualizarArticulo y pasar el artículo actualizado
+                Articulo articuloActualizado = this.objArticuloServices.actualizarArticulo(objArticulo, idArticulo);
+
+                if (articuloActualizado != null) {
+                    Utilidades.mensajeExito("Artículo actualizado exitosamente", "Artículo actualizado");
+                } else {
+                    Utilidades.mensajeError("Error al actualizar el artículo", "Error al actualizar");
+                }
             } else {
-                Utilidades.mensajeError("Error al actualizar el artículo", "Error al actualizar");
+                Utilidades.mensajeError("No se encontró el artículo con ID: " + idArticulo, "Error");
             }
-        } else {
-            Utilidades.mensajeError("No se encontró el artículo con ID: " + idArticulo, "Error");
-        }
 
-    } catch (NumberFormatException e) {
-        Utilidades.mensajeError("ID de artículo inválido", "Error");
-    }
+        } catch (NumberFormatException e) {
+            Utilidades.mensajeError("ID de artículo inválido", "Error");
+        }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

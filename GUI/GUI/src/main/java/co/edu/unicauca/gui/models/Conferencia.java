@@ -1,5 +1,6 @@
 package co.edu.unicauca.gui.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,11 +39,6 @@ public class Conferencia {
     private Date fechaFin;
 
     /**
-     * Costo de inscripción para la conferencia.
-     */
-    private float costoInscripcion;
-
-    /**
      * Lista de artículos enviados a la conferencia.
      */
     private ArrayList<Articulo> articulosEnviados;
@@ -53,17 +49,15 @@ public class Conferencia {
      * @param nombre Nombre de la conferencia.
      * @param fechaInicio Fecha de inicio de la conferencia.
      * @param fechaFin Fecha de finalización de la conferencia.
-     * @param costoInscripcion Costo de inscripción de la conferencia.
      */
     public Conferencia() {
         // Inicializa la lista de artículos para evitar NullPointerException
         this.articulosEnviados = new ArrayList<>();
     }
-    public Conferencia(String nombre, Date fechaInicio, Date fechaFin, float costoInscripcion) {
+    public Conferencia(String nombre, Date fechaInicio, Date fechaFin) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.costoInscripcion = costoInscripcion;
         this.articulosEnviados = new ArrayList<>();
     }
 
@@ -137,24 +131,6 @@ public class Conferencia {
      */
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
-    }
-
-    /**
-     * Obtiene el costo de inscripción para la conferencia.
-     * 
-     * @return El costo de inscripción de la conferencia.
-     */
-    public float getCostoInscripcion() {
-        return costoInscripcion;
-    }
-
-    /**
-     * Establece el costo de inscripción para la conferencia.
-     * 
-     * @param costoInscripcion El costo a asignar.
-     */
-    public void setCostoInscripcion(float costoInscripcion) {
-        this.costoInscripcion = costoInscripcion;
     }
 
     /**

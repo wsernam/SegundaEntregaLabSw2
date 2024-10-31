@@ -78,7 +78,7 @@ public class VtnListarArticulos extends javax.swing.JInternalFrame {
 
         JButton JButtonActualizarArticulo = new JButton();
         JButtonActualizarArticulo.setName("Actualizar");
-        JButtonActualizarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/aplicar.png")));
+        JButtonActualizarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/lapiz.png")));
 
         for (int i = 0; i < listaArticulos.size(); i++) {
             Object[] fila = {
@@ -254,35 +254,42 @@ public class VtnListarArticulos extends javax.swing.JInternalFrame {
                 ((JButton) value).doClick();
                 JButton boton = (JButton) value;
 
-                String idArticulo = jTableListarArticulos.getValueAt(row, 0).toString();
-                int idArticuloConvertido = Integer.parseInt(idArticulo);
-                if (boton.getName().equals("Eliminar")) {
-                    try {
-                        if (Utilidades.mensajeConfirmacion("¿ Estás seguro de que quieres eliminar el artículo con identificador " + idArticulo + " "
-                                + " ?", "Confirmación") == 0) {
-                            boolean bandera = this.objServicio.eliminarArticulo(idArticuloConvertido);
-                            if (bandera == true) {
-                                Utilidades.mensajeExito("El articulo con identificador " + idArticuloConvertido + " fue eliminado exitosamente", "Articulo eliminado");
-                                llenarTabla();
-                            } else {
-                                Utilidades.mensajeAdvertencia("El artículo con identificador " + idArticuloConvertido + " no fue eliminado", "Error al eliminar");
+                String idArticuloStr = jTableListarArticulos.getValueAt(row, 0).toString();
 
-                            }
-                        }
-                    } catch (Exception ex) {
-                        Utilidades.mensajeError("Error al eliminar usuario. Intentelo de nuevo más tarde", "Error");
-                    }
-                } else if (boton.getName().equals("Actualizar")) {
-                    VtnActualizarArticulo objVtnActualizarArticulo
-                            = new VtnActualizarArticulo(objServicio, objServicio2);
-                    objVtnActualizarArticulo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    objVtnActualizarArticulo.cargarDatos(idArticuloConvertido);
-                    objVtnActualizarArticulo.setVisible(true);
+                if ("Eliminar".equals(boton.getName())) {
+                    this.eliminarArticulo(idArticuloStr);
+                } else if ("Actualizar".equals(boton.getName())) {
+                    this.actualizarArticulo(idArticuloStr);
                 }
             }
         }
     }//GEN-LAST:event_jTableListarArticulosMouseClicked
 
+    private void actualizarArticulo(String idArticulo) {
+        int idArticuloEntero = Integer.parseInt(idArticulo);
+        Articulo objArticulo = this.objServicio.consultarArticulo(idArticuloEntero);
+        VtnActualizarArticulo vtnActualizarArticulo = new VtnActualizarArticulo(this.objServicio, objServicio2);
+        vtnActualizarArticulo.actualizarFormularioArticulo(idArticuloEntero, objArticulo);
+        vtnActualizarArticulo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        vtnActualizarArticulo.setVisible(true);
+    }
+
+    private void eliminarArticulo(String idArticulo) {
+        try {
+            if (Utilidades.mensajeConfirmacion("¿Estás seguro de que quieres eliminar el artículo con ID " + idArticulo + "?", "Confirmación") == 0) {
+                int idArticuloEntero = Integer.parseInt(idArticulo);
+                boolean eliminado = this.objServicio.eliminarArticulo(idArticuloEntero);
+                if (eliminado) {
+                    Utilidades.mensajeExito("El artículo con ID " + idArticulo + " fue eliminado exitosamente", "Artículo Eliminado");
+                    llenarTabla(); // Actualiza la tabla tras eliminar
+                } else {
+                    Utilidades.mensajeAdvertencia("El artículo con ID " + idArticulo + " no fue eliminado", "Error al Eliminar");
+                }
+            }
+        } catch (Exception ex) {
+            Utilidades.mensajeError("Error al eliminar el artículo. Inténtelo de nuevo más tarde.", "Error");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonActalizar;
