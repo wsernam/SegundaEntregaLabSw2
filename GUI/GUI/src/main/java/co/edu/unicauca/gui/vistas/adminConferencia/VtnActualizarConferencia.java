@@ -33,8 +33,8 @@ public class VtnActualizarConferencia extends javax.swing.JFrame {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
         // Convertir las fechas de Date a String y establecerlas en los campos de texto
-        this.jTextFieldFechaInicio.setText(formatter.format(objConferencia.getFechaInicio()));
-        this.jTextFieldFechaFin.setText(formatter.format(objConferencia.getFechaFin()));
+        this.jTextFieldFechaInicio.setText("");
+        this.jTextFieldFechaFin.setText("");
     }
 
     /**

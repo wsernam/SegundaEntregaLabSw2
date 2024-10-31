@@ -38,7 +38,8 @@ public class VtnListarConferencias extends javax.swing.JInternalFrame {
      */
     private void iniciarlizarTabla()
     {
-       DefaultTableModel model= new DefaultTableModel();       
+       DefaultTableModel model= new DefaultTableModel(); 
+       model.addColumn("id"); 
        model.addColumn("Nombre");       
        model.addColumn("Fecha de inicio");
        model.addColumn("Fecha de fin");
@@ -65,10 +66,12 @@ public class VtnListarConferencias extends javax.swing.JInternalFrame {
 private void llenarTabla() {
     DefaultTableModel model = (DefaultTableModel) this.jTableListadoConferencias.getModel();
     limpiarTabla();
+    
+    // Listado de conferencias desde el servicio
     List<Conferencia> listaConferencias = this.objServicioAlmacenamiento.listarConferencias();
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
-    for (int i = 0; i < listaConferencias.size(); i++) {
+    
+    for (Conferencia conferencia : listaConferencias) {
         JButton JButtonActualizarConferencia = new JButton();
         JButtonActualizarConferencia.setName("Actualizar");
         JButtonActualizarConferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/lapiz.png")));
@@ -77,25 +80,22 @@ private void llenarTabla() {
         JButtonEliminarConferencia.setName("Eliminar");
         JButtonEliminarConferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/remove.png")));
 
-        // Verificar que las fechas no sean null antes de formatearlas
-        String fechaInicioFormateada = listaConferencias.get(i).getFechaInicio() != null 
-            ? formatter.format(listaConferencias.get(i).getFechaInicio()) 
-            : "Fecha no disponible";
-        
-        String fechaFinFormateada = listaConferencias.get(i).getFechaFin() != null 
-            ? formatter.format(listaConferencias.get(i).getFechaFin()) 
-            : "Fecha no disponible";
+        // Validar fechas para evitar NullPointerException
+        String fechaInicio = (conferencia.getFechaInicio() != null) ? formatter.format(conferencia.getFechaInicio()) : "Sin fecha";
+        String fechaFin = (conferencia.getFechaFin() != null) ? formatter.format(conferencia.getFechaFin()) : "Sin fecha";
 
+        // Agregar fila a la tabla con el ID de la conferencia y los botones de acciones
         Object[] fila = {
-            listaConferencias.get(i).getNombre(), 
-            fechaInicioFormateada,
-            fechaFinFormateada,
-            JButtonActualizarConferencia, 
+            conferencia.getIdConferencia(), // ID de la conferencia
+            conferencia.getNombre(),
+            fechaInicio,
+            fechaFin,
+            JButtonActualizarConferencia,
             JButtonEliminarConferencia
         };
         
         model.addRow(fila);
-    }  
+    }
 }
 
     
