@@ -62,28 +62,42 @@ public class VtnListarConferencias extends javax.swing.JInternalFrame {
     /**
      * Llena la tabla con la lista de conferencias almacenadas.
      */
-    private void llenarTabla()
-    {
-        DefaultTableModel model=(DefaultTableModel) this.jTableListadoConferencias.getModel();
-        limpiarTabla();
-        List<Conferencia> listaConferencias= this.objServicioAlmacenamiento.listarConferencias();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-       
-        for (int i = 0; i < listaConferencias.size(); i++) {
-            JButton JButtonActualizarConferencia = new JButton();
-            JButtonActualizarConferencia.setName("Actualizar");
-            JButtonActualizarConferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/lapiz.png")));
+private void llenarTabla() {
+    DefaultTableModel model = (DefaultTableModel) this.jTableListadoConferencias.getModel();
+    limpiarTabla();
+    List<Conferencia> listaConferencias = this.objServicioAlmacenamiento.listarConferencias();
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-            
-            JButton JButtonEliminarConferencia = new JButton();
-            JButtonEliminarConferencia.setName("Eliminar");
-            JButtonEliminarConferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/remove.png")));
+    for (int i = 0; i < listaConferencias.size(); i++) {
+        JButton JButtonActualizarConferencia = new JButton();
+        JButtonActualizarConferencia.setName("Actualizar");
+        JButtonActualizarConferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/lapiz.png")));
 
-            
-            Object [] fila= { listaConferencias.get(i).getIdConferencia()+"", listaConferencias.get(i).getNombre(), formatter.format(listaConferencias.get(i).getFechaInicio()),formatter.format(listaConferencias.get(i).getFechaFin())+"",JButtonActualizarConferencia,JButtonEliminarConferencia};
-            model.addRow(fila);
-        }  
-    }
+        JButton JButtonEliminarConferencia = new JButton();
+        JButtonEliminarConferencia.setName("Eliminar");
+        JButtonEliminarConferencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/remove.png")));
+
+        // Verificar que las fechas no sean null antes de formatearlas
+        String fechaInicioFormateada = listaConferencias.get(i).getFechaInicio() != null 
+            ? formatter.format(listaConferencias.get(i).getFechaInicio()) 
+            : "Fecha no disponible";
+        
+        String fechaFinFormateada = listaConferencias.get(i).getFechaFin() != null 
+            ? formatter.format(listaConferencias.get(i).getFechaFin()) 
+            : "Fecha no disponible";
+
+        Object[] fila = {
+            listaConferencias.get(i).getNombre(), 
+            fechaInicioFormateada,
+            fechaFinFormateada,
+            JButtonActualizarConferencia, 
+            JButtonEliminarConferencia
+        };
+        
+        model.addRow(fila);
+    }  
+}
+
     
     /**
      * This method is called from within the constructor to initialize the form.
