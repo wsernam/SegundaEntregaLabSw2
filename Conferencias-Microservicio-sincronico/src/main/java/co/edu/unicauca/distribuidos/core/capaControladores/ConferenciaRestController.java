@@ -51,7 +51,7 @@ public class ConferenciaRestController {
 	}
 
 	@GetMapping("/existe/{codigo}")
-    public ResponseEntity<Boolean> existeArticulo(@PathVariable Integer codigo) {
+    public ResponseEntity<Boolean> existeConferencia(@PathVariable Integer codigo) {
         boolean existe = ConferenciaService.existeConferencia(codigo);
         return ResponseEntity.ok(existe);
     }
