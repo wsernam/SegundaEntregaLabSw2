@@ -16,7 +16,7 @@ public class Articulo {
     private String autores;
     private String resumen;
     
-    @JsonProperty("conferencias")
+    //@JsonProperty("conferencias")
     private List<Conferencia> conferencias;  // Cambiar a lista para coincidir con el JSON
 
     public Articulo() {

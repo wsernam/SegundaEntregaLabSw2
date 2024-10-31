@@ -2,6 +2,7 @@ package co.edu.unicauca.gui.vistas.adminConferencia;
 
 import co.edu.unicauca.gui.servicios.ArticuloServices;
 import co.edu.unicauca.gui.servicios.ConferenciaServices;
+import co.edu.unicauca.gui.vistas.articulos.VtnConsultarArticulo;
 import co.edu.unicauca.gui.vistas.articulos.VtnListarArticulos;
 import co.edu.unicauca.gui.vistas.articulos.VtnRegistrarArticulo1;
 import java.awt.Image;
@@ -20,6 +21,7 @@ public class VtnPrincipalAdmin extends javax.swing.JFrame {
     private VtnRegistrarArticulo1 objVtnRegistrarArticulos;
     private VtnListarConferencias objVtnListarConferencias;
     private VtnListarArticulos objVtnListarArticulos;
+    private VtnConsultarArticulo objVtnConsultarArticulo;
     private ConferenciaServices objServicio1;
     private ArticuloServices objServicio2;
 
@@ -52,6 +54,9 @@ public class VtnPrincipalAdmin extends javax.swing.JFrame {
         
         this.objVtnListarArticulos = new VtnListarArticulos(this.objServicio2, this.objServicio1);
         this.jDesktopPanelPrincipal.add(this.objVtnListarArticulos);
+        
+        this.objVtnConsultarArticulo = new VtnConsultarArticulo(this.objServicio2);
+        this.jDesktopPanelPrincipal.add(this.objVtnConsultarArticulo);
     }
 
     /**
@@ -74,6 +79,7 @@ public class VtnPrincipalAdmin extends javax.swing.JFrame {
         jPanelMenu = new javax.swing.JPanel();
         jButtonGestionarConferencias = new javax.swing.JButton();
         jButtonRegistrarArticulo = new javax.swing.JButton();
+        jButtonConsultarArticulo = new javax.swing.JButton();
         jPanelInferior = new javax.swing.JPanel();
         jPanelCentral = new javax.swing.JPanel();
         jDesktopPanelPrincipal = new javax.swing.JDesktopPane();
@@ -100,6 +106,13 @@ public class VtnPrincipalAdmin extends javax.swing.JFrame {
             }
         });
 
+        jButtonConsultarArticulo.setText("Consultar Articulo");
+        jButtonConsultarArticulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConsultarArticuloActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelMenuLayout = new javax.swing.GroupLayout(jPanelMenu);
         jPanelMenu.setLayout(jPanelMenuLayout);
         jPanelMenuLayout.setHorizontalGroup(
@@ -107,9 +120,11 @@ public class VtnPrincipalAdmin extends javax.swing.JFrame {
             .addGroup(jPanelMenuLayout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addComponent(jButtonGestionarConferencias)
-                .addGap(47, 47, 47)
+                .addGap(31, 31, 31)
                 .addComponent(jButtonRegistrarArticulo)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addComponent(jButtonConsultarArticulo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelMenuLayout.setVerticalGroup(
             jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,7 +132,8 @@ public class VtnPrincipalAdmin extends javax.swing.JFrame {
                 .addContainerGap(27, Short.MAX_VALUE)
                 .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonGestionarConferencias)
-                    .addComponent(jButtonRegistrarArticulo))
+                    .addComponent(jButtonRegistrarArticulo)
+                    .addComponent(jButtonConsultarArticulo))
                 .addContainerGap())
         );
 
@@ -199,15 +215,24 @@ public class VtnPrincipalAdmin extends javax.swing.JFrame {
     private void jButtonRegistrarArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarArticuloActionPerformed
         this.objVtnListarArticulos.setVisible(true);
         this.objVtnListarConferencias.setVisible(false);
+        this.objVtnConsultarArticulo.setVisible(false);
     }//GEN-LAST:event_jButtonRegistrarArticuloActionPerformed
 
     private void jButtonGestionarConferenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGestionarConferenciasActionPerformed
         this.objVtnRegistrarArticulos.setVisible(false);
         this.objVtnListarConferencias.setVisible(true);
+        this.objVtnConsultarArticulo.setVisible(false);
     }//GEN-LAST:event_jButtonGestionarConferenciasActionPerformed
+
+    private void jButtonConsultarArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarArticuloActionPerformed
+        this.objVtnConsultarArticulo.setVisible(true);
+        this.objVtnRegistrarArticulos.setVisible(false);
+        this.objVtnListarConferencias.setVisible(false);
+    }//GEN-LAST:event_jButtonConsultarArticuloActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonConsultarArticulo;
     private javax.swing.JButton jButtonGestionarConferencias;
     private javax.swing.JButton jButtonRegistrarArticulo;
     private javax.swing.JDesktopPane jDesktopPanelPrincipal;

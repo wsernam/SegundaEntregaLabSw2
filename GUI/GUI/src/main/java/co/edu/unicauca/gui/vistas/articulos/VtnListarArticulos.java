@@ -44,7 +44,7 @@ public class VtnListarArticulos extends javax.swing.JInternalFrame {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Id");
         model.addColumn("Titulo");
-        model.addColumn("Conferencias");
+        model.addColumn("Autores");
         model.addColumn("Eliminar");
         model.addColumn("Actualizar");
         this.jTableListarArticulos.setModel(model);
@@ -66,34 +66,33 @@ public class VtnListarArticulos extends javax.swing.JInternalFrame {
      * Llena la tabla con los artículos disponibles. Obtiene la lista de
      * artículos del servicio y los añade a la tabla.
      */
-private void llenarTabla() {
-    DefaultTableModel model = (DefaultTableModel) this.jTableListarArticulos.getModel();
-    limpiarTabla();
-    // Obtener la lista de artículos desde el servicio
-    ArrayList<Articulo> listaArticulos = (ArrayList<Articulo>) this.objServicio.listarArticulos();
+    private void llenarTabla() {
+        DefaultTableModel model = (DefaultTableModel) this.jTableListarArticulos.getModel();
+        limpiarTabla();
+        // Obtener la lista de artículos desde el servicio
+        ArrayList<Articulo> listaArticulos = (ArrayList<Articulo>) this.objServicio.listarArticulos();
 
-    // Crear los botones con íconos
-    JButton JButtonEliminarArticulo = new JButton();
-    JButtonEliminarArticulo.setName("Eliminar");
-    JButtonEliminarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/remove.png")));
-    
-    JButton JButtonActualizarArticulo = new JButton();
-    JButtonActualizarArticulo.setName("Actualizar");
-    JButtonActualizarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/lapiz.png")));
+        // Crear los botones con íconos
+        JButton JButtonEliminarArticulo = new JButton();
+        JButtonEliminarArticulo.setName("Eliminar");
+        JButtonEliminarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/remove.png")));
 
-    // Iterar a través de la lista de artículos y agregar cada fila a la tabla
-    for (Articulo articulo : listaArticulos) {
-        Object[] fila = new Object[]{
-            articulo.getIdArticulo(),
-            articulo.getTitulo(),
-            articulo.getConferencias(), // Cambia esto según lo que necesitas mostrar
-            JButtonEliminarArticulo,
-            JButtonActualizarArticulo
-        };
-        model.addRow(fila);
+        JButton JButtonActualizarArticulo = new JButton();
+        JButtonActualizarArticulo.setName("Actualizar");
+        JButtonActualizarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/lapiz.png")));
+
+        // Iterar a través de la lista de artículos y agregar cada fila a la tabla
+        for (Articulo articulo : listaArticulos) {
+            Object[] fila = new Object[]{
+                articulo.getIdArticulo(),
+                articulo.getTitulo(),
+                articulo.getAutores(), // Cambia esto según lo que necesitas mostrar
+                JButtonEliminarArticulo,
+                JButtonActualizarArticulo
+            };
+            model.addRow(fila);
+        }
     }
-}
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -279,16 +278,16 @@ private void llenarTabla() {
     }
 
     private void eliminarArticulo(String idArticulo) {
-            if (Utilidades.mensajeConfirmacion("¿Estás seguro de que quieres eliminar el artículo con ID " + idArticulo + "?", "Confirmación") == 0) {
-                int idArticuloEntero = Integer.parseInt(idArticulo);
-                boolean eliminado = this.objServicio.eliminarArticulo(idArticuloEntero);
-                if (eliminado) {
-                    Utilidades.mensajeExito("El artículo con ID " + idArticulo + " fue eliminado exitosamente", "Artículo Eliminado");
-                    llenarTabla(); // Actualiza la tabla tras eliminar
-                } else {
-                    Utilidades.mensajeAdvertencia("El artículo con ID " + idArticulo + " no fue eliminado", "Error al Eliminar");
-                }
+        if (Utilidades.mensajeConfirmacion("¿Estás seguro de que quieres eliminar el artículo con ID " + idArticulo + "?", "Confirmación") == 0) {
+            int idArticuloEntero = Integer.parseInt(idArticulo);
+            boolean eliminado = this.objServicio.eliminarArticulo(idArticuloEntero);
+            if (eliminado) {
+                Utilidades.mensajeExito("El artículo con ID " + idArticulo + " fue eliminado exitosamente", "Artículo Eliminado");
+                llenarTabla(); // Actualiza la tabla tras eliminar
+            } else {
+                Utilidades.mensajeAdvertencia("El artículo con ID " + idArticulo + " no fue eliminado", "Error al Eliminar");
             }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

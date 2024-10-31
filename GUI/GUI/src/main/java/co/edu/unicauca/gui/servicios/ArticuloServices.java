@@ -51,4 +51,11 @@ public class ArticuloServices {
         Builder objPeticion = target.request(MediaType.APPLICATION_JSON_TYPE);
         return objPeticion.delete(Boolean.class);
     }
+    
+    public Boolean consultarSiExisteArticulo(Integer id) {
+        Boolean bandera;
+        WebTarget target = this.objClientePeticiones.target(this.endPoint + "/existe/" + id);
+        bandera = target.request(MediaType.APPLICATION_JSON_TYPE).get(Boolean.class);
+        return bandera;
+    }
 }
