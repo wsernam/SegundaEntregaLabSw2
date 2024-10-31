@@ -44,7 +44,7 @@ public class VtnListarArticulos extends javax.swing.JInternalFrame {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Id");
         model.addColumn("Titulo");
-        model.addColumn("Autores");
+        model.addColumn("Conferencias");
         model.addColumn("Eliminar");
         model.addColumn("Actualizar");
         this.jTableListarArticulos.setModel(model);
@@ -66,31 +66,34 @@ public class VtnListarArticulos extends javax.swing.JInternalFrame {
      * Llena la tabla con los artículos disponibles. Obtiene la lista de
      * artículos del servicio y los añade a la tabla.
      */
-    private void llenarTabla() {
-        DefaultTableModel model = (DefaultTableModel) this.jTableListarArticulos.getModel();
-        limpiarTabla();
-        ArrayList<Articulo> listaArticulos
-                = (ArrayList<Articulo>) this.objServicio.listarArticulos();
+private void llenarTabla() {
+    DefaultTableModel model = (DefaultTableModel) this.jTableListarArticulos.getModel();
+    limpiarTabla();
+    // Obtener la lista de artículos desde el servicio
+    ArrayList<Articulo> listaArticulos = (ArrayList<Articulo>) this.objServicio.listarArticulos();
 
-        JButton JButtonEliminarArticulo = new JButton();
-        JButtonEliminarArticulo.setName("Eliminar");
-        JButtonEliminarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/remove.png")));
+    // Crear los botones con íconos
+    JButton JButtonEliminarArticulo = new JButton();
+    JButtonEliminarArticulo.setName("Eliminar");
+    JButtonEliminarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/remove.png")));
+    
+    JButton JButtonActualizarArticulo = new JButton();
+    JButtonActualizarArticulo.setName("Actualizar");
+    JButtonActualizarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/lapiz.png")));
 
-        JButton JButtonActualizarArticulo = new JButton();
-        JButtonActualizarArticulo.setName("Actualizar");
-        JButtonActualizarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/lapiz.png")));
-
-        for (int i = 0; i < listaArticulos.size(); i++) {
-            Object[] fila = {
-                listaArticulos.get(i).getIdArticulo(),
-                listaArticulos.get(i).getTitulo(),
-                listaArticulos.get(i).getAutores(),
-                JButtonEliminarArticulo,
-                JButtonActualizarArticulo};
-            model.addRow(fila);
-        }
-
+    // Iterar a través de la lista de artículos y agregar cada fila a la tabla
+    for (Articulo articulo : listaArticulos) {
+        Object[] fila = new Object[]{
+            articulo.getIdArticulo(),
+            articulo.getTitulo(),
+            articulo.getConferencias(), // Cambia esto según lo que necesitas mostrar
+            JButtonEliminarArticulo,
+            JButtonActualizarArticulo
+        };
+        model.addRow(fila);
     }
+}
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -259,6 +262,7 @@ public class VtnListarArticulos extends javax.swing.JInternalFrame {
                 if ("Eliminar".equals(boton.getName())) {
                     this.eliminarArticulo(idArticuloStr);
                 } else if ("Actualizar".equals(boton.getName())) {
+                    System.out.println("SSs");
                     this.actualizarArticulo(idArticuloStr);
                 }
             }

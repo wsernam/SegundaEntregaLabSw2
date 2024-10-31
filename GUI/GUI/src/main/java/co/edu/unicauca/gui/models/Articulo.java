@@ -43,9 +43,6 @@ public class Articulo {
     }
 
     public void setTitulo(String titulo) {
-        if (titulo == null || titulo.trim().isEmpty()) {
-            throw new IllegalArgumentException("El título no puede ser nulo o vacío.");
-        }
         this.titulo = titulo;
     }
 
